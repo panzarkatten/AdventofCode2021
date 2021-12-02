@@ -1,21 +1,27 @@
 from pathlib import Path
 
 input = Path(__file__).with_name('input1-1.txt')
-counter = 0
-prev = None
-sums = []
+lines = input.open('r').readlines()
 
-with input.open('r') as f:
-    lines = f.readlines()
+def depthIncrease (data):
+    depthinc = 0
+    prev = None
+    for depth in data:
+        depth = int(depth)
+        if prev and depth > prev:
+            depthinc += 1
+        prev = depth
 
-    for i in range(0, len(lines)-2):
-        sum = int(lines[i]) + int(lines[i+1]) + int(lines[i+2])
-        sums.append(sum)
+    return depthinc
 
-    for sum in sums:
-        x = int(sum)
-        if prev and x > prev:
-            counter += 1
-        prev = x
-    else:   
-        print(counter)
+def depthIncreaseFiltered (data):
+    filteredData = []
+    for i in range(0, len(data)-2):
+        sum = int(data[i]) + int(data[i+1]) + int(data[i+2])
+        filteredData.append(sum)
+    
+    return depthIncrease(filteredData)
+
+
+print("Depth increased:" + str(depthIncrease(lines)))
+print("Depth increased Filtered:" + str(depthIncreaseFiltered(lines)))
