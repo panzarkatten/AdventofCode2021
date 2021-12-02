@@ -1,11 +1,9 @@
 from pathlib import Path
 
 input = Path(__file__).with_name('input.txt')
+lines = input.open('r').readlines()
 
-with input.open('r') as f:
-    lines = f.readlines()
-
-    for line in lines:
-
+for line in lines:
+    x = line.strip().split()
     
 print(lines)
