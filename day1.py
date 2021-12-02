@@ -1,6 +1,6 @@
 from pathlib import Path
 
-input = Path(__file__).with_name('input1-1.txt')
+input = Path(__file__).with_name('input1.txt')
 lines = input.open('r').readlines()
 
 def depthIncrease (data):
