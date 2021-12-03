@@ -3,7 +3,7 @@ from pathlib import Path
 input = Path(__file__).with_name('day2.txt')
 lines = input.open('r').readlines()
 
-def diveSimple (data):
+def dive (data):
     depth = 0
     hpos = 0
 
@@ -21,7 +21,7 @@ def diveSimple (data):
 
     return depth * hpos
 
-def diveComplex (data):
+def dive_aim (data):
     depth = 0
     hpos = 0
     aim = 0
@@ -42,5 +42,5 @@ def diveComplex (data):
     return depth * hpos
 
 
-print('Dive version 1 result: ' + str(diveSimple(lines)))
-print('Dive version 2 result: ' + str(diveComplex(lines)))
+print('Dive: ' + str(dive(lines)))
+print('Dive Aim: ' + str(dive_aim(lines)))
