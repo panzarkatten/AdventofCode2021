@@ -6,7 +6,8 @@ input = Path(__file__).with_name('day4.txt')
 lines = input.open('r').read().split('\n\n')
 
 class bingo_board():
-    def __init__(self, numbers) -> None:
+    def __init__(self, numbers, index) -> None:
+        self.index = index
         self.marked = [False] * 25
         self.numbers = findall('\d+', numbers)
         for i in range(0, len(self.numbers)):
@@ -59,13 +60,25 @@ def play_bingo(balls, boards):
             if board.bingo():
                 return sum(board.all_unmarked()) * ball
 
+def play_last_bingo(balls, boards):
+    winning_boards = set()
+    for ball in balls:
+        
+        ball = int(ball)
+        for board in boards:
+            board.mark(ball)
+            if board.bingo():
+                winning_boards.add(board.index)
+                if len(winning_boards) == len(boards):
+                    return sum(board.all_unmarked()) * ball
 
 # Create bingo boards
 boards = []
 for i in range(1, len(lines)):
-    boards.append(bingo_board(lines[i]))
+    boards.append(bingo_board(lines[i], i - 1))
 
 # Create balls
 balls = lines[0].split(',')
 
-print('Score: ' + str(play_bingo(balls, boards)))
+print('Score part 1: ' + str(play_bingo(balls, boards)))
+print('Score part 2: ' + str(play_last_bingo(balls, boards)))
