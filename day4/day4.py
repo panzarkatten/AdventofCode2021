@@ -13,7 +13,6 @@ class bingo_board():
         for i in range(0, len(self.numbers)):
             self.numbers[i] = int(self.numbers[i])
 
-        # self.board = dict(zip(self.numbers, marked))
         self.size = int(sqrt(len(self.numbers)))
     
     # Method to mark a number on the board. 
@@ -36,10 +35,6 @@ class bingo_board():
     def all_unmarked(self):
         board = dict(zip(self.numbers, self.marked))
         return [num for num, marked in board.items() if not marked]
-    
-    # Get the index of a given value
-    def _index(self, num):
-        return self.numbers.index(num)
 
     # Return marked row number n
     def _mrow(self, n):
@@ -63,7 +58,6 @@ def play_bingo(balls, boards):
 def play_last_bingo(balls, boards):
     winning_boards = set()
     for ball in balls:
-        
         ball = int(ball)
         for board in boards:
             board.mark(ball)
