@@ -21,12 +21,9 @@ def create_population(population):
 def pass_n_days(population, days):
     for day in range(1, days + 1):
         newborns = population[0]
-        
-        if newborns > 0:
-            population = population[1:] + [newborns]
-            population[6] += newborns
-        else:
-            population = population[1:] + population[:1]
+
+        population = population[1:] + [newborns]
+        population[6] += newborns
 
     return population
 
