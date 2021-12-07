@@ -22,17 +22,13 @@ def calculate_fuel(crab_positions, target):
 def calculate_fuel_2(crab_positions, target):
     fuel = 0
     for pos in crab_positions:
-        cur_fuel = 0
         for i in range(1, abs(pos - target) + 1):
-            cur_fuel += i
-
-        fuel += cur_fuel
+            fuel += i
     
     return fuel
 
 
-min_pos = min(crab_positions)
-max_pos = max(crab_positions)
+min_pos, max_pos = min(crab_positions), max(crab_positions)
 
 fuel_calculations = []
 fuel_calculations_2 = []
