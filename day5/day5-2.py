@@ -6,12 +6,12 @@ def process_input(input):
     # cords = [c.split('->') for c in cords]
     cords = ()
     for line in lines:
-        print(line.split('->'))
         cord = line.split('->')
         cord = [tuple(map(int, c.split(','))) for c in cord]
         cords += tuple(cord)
 
     return tuple(cords)
+
 
 def get_line_cords(cords: Tuple[Tuple[int, int], Tuple[int, int]]):
     lines = ()
@@ -29,7 +29,7 @@ def get_line_cords(cords: Tuple[Tuple[int, int], Tuple[int, int]]):
 
             for x in range(x1,x2+1):
                 for y in range(y1,y2+1):        
-                    print(f'x{x},y{y}')
+                    # print(f'x{x},y{y}')
                     line += ((x,y),)
         else:
             # Diagonal line
