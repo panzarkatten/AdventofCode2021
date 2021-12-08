@@ -33,9 +33,13 @@ min_pos, max_pos = min(crab_positions), max(crab_positions)
 fuel_calculations = []
 fuel_calculations_2 = []
 
-for i in range(min_pos, max_pos):
-    fuel_calculations += [calculate_fuel(crab_positions, i)]
-    fuel_calculations_2 += [calculate_fuel_2(crab_positions, i)]
+# for i in range(min_pos, max_pos):
+    # fuel_calculations += [calculate_fuel(crab_positions, i)]
+    # fuel_calculations_2 += [calculate_fuel_2(crab_positions, i)]
 
-print(f'Minimum fuel acc. to my calcualtions: {min(fuel_calculations)}')
-print(f'Minimum fuel acc. to the crabs calcualtions: {min(fuel_calculations_2)}')
+crab_positions.sort()
+fuel_cost_part1 = calculate_fuel(crab_positions, crab_positions[int(len(crab_positions) / 2)])
+fuel_cost_part2 = calculate_fuel_2(crab_positions, int(sum(crab_positions) / len(crab_positions)))
+
+print(f'Minimum fuel acc. to my calcualtions: {fuel_cost_part1}')
+print(f'Minimum fuel acc. to the crabs calcualtions: {fuel_cost_part2}')
