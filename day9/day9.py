@@ -15,6 +15,18 @@ def get_pos_height(pos: Tuple[int, int], map: List[List[int]]):
     x,y = pos
     return map[y][x]
 
+def get_neighbour_pos(pos):
+    x,y = pos
+
+    u = (x     , y - 1)
+    r = (x + 1 , y    )
+    d = (x     , y + 1)
+    l = (x - 1 , y    )
+    
+    return {'u': u,'r': r,'d': d,'l': l}
+
+print(f'Neighbour positions: {get_neighbour_pos((4,4))}')
+
 def get_neighbours(pos: Tuple[int, int], map: List[List[int]]) -> List[int]:
     """
     Returned list contains neighbour in the order UP, RIGHT, DOWN, LEFT
@@ -33,14 +45,10 @@ def get_neighbours(pos: Tuple[int, int], map: List[List[int]]) -> List[int]:
     map_y_lim = len(map) - 1
 
     # Absolut positions to the neighbours
-    u = (x     , y - 1)
-    r = (x + 1 , y    )
-    d = (x     , y + 1)
-    l = (x - 1 , y    )
-    n_pos = [u,r,d,l]
+    n_pos = get_neighbour_pos(pos)
 
     # Handle posisions at the edge of the map
-    for p in n_pos:
+    for d,p in n_pos.items():
         xn,yn = p
 
         if not any([xn < 0, xn > map_x_lim, yn < 0, yn > map_y_lim]):
