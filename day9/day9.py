@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Tuple, List, Dict
 
-input = Path(__file__).with_name('day9.txt')
+input = Path(__file__).with_name('day9_test.txt')
 raw_input = input.open('r').read()
 
 def process_input(input: str) -> List[Tuple[Tuple[str, str]]]:
@@ -22,6 +22,8 @@ def get_neighbour_pos(pos):
     r = (x + 1 , y    )
     d = (x     , y + 1)
     l = (x - 1 , y    )
+
+    neighbours_pos = {'u': u,'r': r,'d': d,'l': l}
     
     return {'u': u,'r': r,'d': d,'l': l}
 
@@ -58,24 +60,65 @@ def get_neighbours(pos: Tuple[int, int], map: List[List[int]]) -> List[int]:
             
     return n
 
+
 def get_map_size(map: List[List[int]]) -> Dict[str, int]:
     return {'x': len(map[0]), 'y': len(map)}
 
+def get_low_spots(map: List[List[int]]) -> List[Tuple[int, int]]:
+    low_spots = []
+    for y in range(0, map_size['y']):
+        for x in range(0, map_size['x']):
+            print(f'x: {x} \t y: {y}')
+            neighbours = get_neighbours((x,y), flow_map)
+            pos_h = get_pos_height((x,y), flow_map)
 
+            if pos_h < min(neighbours):
+                low_spots.append((x,y))
+    
+    return low_spots
+
+def get_higher_neighbours(pos: List[Tuple[int, int]]) -> List[Tuple[int, int]]:
+    low_spots = []
+    for y in range(0, map_size['y']):
+        for x in range(0, map_size['x']):
+            neighbours = get_neighbours((x,y), flow_map)
+            pos_h = get_pos_height((x,y), flow_map)
+
+            if pos_h < min(neighbours):
+                low_spots.append((x,y))
+    
+    return low_spots
+
+def get_basin(pos):
+    pass
+
+# --- Init ---
 flow_map = process_input(raw_input)
 map_size = get_map_size((flow_map))
+low_spots = get_low_spots(flow_map)
 
+# --- Part One ---
 sum = 0
-
-for y in range(0, map_size['y']):
-    for x in range(0, map_size['x']):
-        neighbours = get_neighbours((x,y), flow_map)
-        pos_h = get_pos_height((x,y), flow_map)
-
-        if pos_h < min(neighbours):
-            sum += pos_h + 1
-
+for p in low_spots:
+    sum += get_pos_height(p, flow_map) + 1
 
 print(f'Part One: {sum}')
 
+# --- Part Two ---
+"""
+2199943210
+3987894921
+9856789892
+8767896789
+9899965678
+"""
 
+# Find position of the lowest points on the map
+
+
+# Go through all points found and get all neighbours that are higher and save in i list
+for ls in low_spots:
+    neighbours = get_neighbour_pos(ls)
+    print(neighbours)
+# Iterade thru that list until no more higher points are found (recursion?)
+# In the end you should end up with a list of lists where each list contains the coordinates for that basin.
