@@ -1,16 +1,15 @@
 from pathlib import Path
-from typing import Tuple, List, Dict
 
 input = Path(__file__).with_name('day9.txt')
 raw_input = input.open('r').read()
 
-def process_input(input: str) -> List[Tuple[Tuple[str, str]]]:
+def process_input(input):
     """Process the input and return an object which is easier to work with"""
     data = list([list(map(int, line)) for line in list(input.strip().split('\n'))])
     
     return data
 
-def get_pos_height(pos: Tuple[int, int], map):
+def get_pos_height(pos, map):
     x,y = pos
     return map[y][x]
 
@@ -48,10 +47,11 @@ def get_neighbour_pos(pos, map):
     return neighbours_pos
 
 
-def get_map_size(map: List[List[int]]) -> Dict[str, int]:
+def get_map_size(map):
     return {'x': len(map[0]), 'y': len(map)}
 
-def get_low_spots(map: List[List[int]]) -> List[Tuple[int, int]]:
+
+def get_low_spots(map):
     low_spots = []
     map_size = get_map_size(map)
     for y in range(0, map_size['y']):
@@ -76,7 +76,6 @@ def get_basin(pos, map):
         found_basin = False
         new_basin = []
         for i,v in enumerate(nb_heights):
-            
             if v > pos_height and nb_positions[i] and v != 9:
                 found_basin = True
                 new_basin.append(nb_positions[i])
@@ -93,16 +92,11 @@ def get_basin(pos, map):
             
 
 
-
-
-
 # --- Init ---
 flow_map = process_input(raw_input)
-# map_size = get_map_size((flow_map))
 low_spots = get_low_spots(flow_map)
 
 # --- Part One ---
-
 sum = 0
 for p in low_spots:
     sum += get_pos_height(p, flow_map) + 1
@@ -116,5 +110,3 @@ l = list(map(len,top3))
 prod = l[0] * l[1] * l[2]
 
 print(f'Part Two: {prod}')
-# Iterade thru that list until no more higher points are found (recursion?)
-# In the end you should end up with a list of lists where each list contains the coordinates for that basin.
