@@ -96,18 +96,6 @@ def get_low_spots(map: List[List[int]]) -> List[Tuple[int, int]]:
     
     return low_spots
 
-def get_higher_neighbours(pos: List[Tuple[int, int]]) -> List[Tuple[int, int]]:
-    low_spots = []
-    for y in range(0, map_size['y']):
-        for x in range(0, map_size['x']):
-            neighbours = get_neighbours((x,y), flow_map)
-            pos_h = get_pos_height((x,y), flow_map)
-
-            if pos_h < min(neighbours):
-                low_spots.append((x,y))
-    
-    return low_spots
-
 
 def get_basin(pos, map):
     basin = []
@@ -115,34 +103,21 @@ def get_basin(pos, map):
         pos_height = get_pos_height(pos, map)
         nb_positions = get_neighbour_pos(pos, map)
         nb_heights = get_neighbours_height(nb_positions, map)
-        print(' ')
-        print(f'Checking position {pos}')
-        print(f'nb_positions: {nb_positions}')
-        print(f'nb_heights: {nb_heights}')
 
-        print(f'Checking all neighbours of {pos}')
         found_basin = False
         new_basin = []
         for i,v in enumerate(nb_heights):
             
-            print(f'i: {i} \t v: {v}')
             if v > pos_height and nb_positions[i] and v != 9:
-                print(f'Found new part of basin {nb_positions[i]} ')
                 found_basin = True
-                print(f'Appending {nb_positions[i]} to new_basin')
                 new_basin.append(nb_positions[i])
-                
-
-        print(f'new_basin: {new_basin}')
 
         if found_basin:
-            print('--- Digging deeper ---')
             for p in new_basin:
                 if p not in basin:
                     basin += get_basin(p, map)
         
         basin.append(pos)
-
         basin = list(set(basin))
 
         return basin
@@ -159,37 +134,18 @@ low_spots = get_low_spots(flow_map)
 
 # --- Part One ---
 
-# sum = 0
-# for p in low_spots:
-#     sum += get_pos_height(p, flow_map) + 1
+sum = 0
+for p in low_spots:
+    sum += get_pos_height(p, flow_map) + 1
 
-# print(f'Part One: {sum}')
+print(f'Part One: {sum}')
 
 # --- Part Two ---
-"""
-2199943210
-3987894921
-9856789892
-8767896789
-9899965678
-
-(5, 0), (6, 0), (7, 0), (8, 0), (9, 0)
-(6, 1), (8, 1), (9, 1)
-(9,2)
-"""
-
-# Find position of the lowest points on the map
-
-
-# Go through all points found and get all neighbours that are higher and save in i list
 basins = [get_basin(ls, flow_map) for ls in low_spots]
-
 top3 = list(sorted(basins, key = len, reverse = True))[:3]
-
 l = list(map(len,top3))
+prod = l[0] * l[1] * l[2]
 
-ans = l[0] * l[1] * l[2]
-
-print(ans)
+print(f'Part Two: {prod}')
 # Iterade thru that list until no more higher points are found (recursion?)
 # In the end you should end up with a list of lists where each list contains the coordinates for that basin.
