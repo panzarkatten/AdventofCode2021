@@ -47,38 +47,6 @@ def get_neighbour_pos(pos, map):
 
     return neighbours_pos
 
-def get_neighbours(pos: Tuple[int, int], map: List[List[int]]) -> List[int]:
-    """
-    Returned list contains neighbour in the order UP, RIGHT, DOWN, LEFT
-    If nieghbour is out of bound the max height if 9 is used instead
-    """
-    n = []
-    
-    # Position to check
-    x,y = pos
-    y = int(y)
-    x = int(x)
-
-    # Map limits
-    map_size = get_map_size(map)
-    map_x_lim = len(map[0]) - 1
-    map_y_lim = len(map) - 1
-
-    # Absolut positions to the neighbours
-    n_pos = get_neighbour_pos(pos, map)
-
-    # Handle posisions at the edge of the map
-    for p in n_pos:
-        if p:
-            xn,yn = p
-
-            if not any([xn < 0, xn > map_x_lim, yn < 0, yn > map_y_lim]):
-                n.append(get_pos_height((xn,yn),map))
-            else:
-                n.append(9)
-            
-    return n
-
 
 def get_map_size(map: List[List[int]]) -> Dict[str, int]:
     return {'x': len(map[0]), 'y': len(map)}
@@ -88,10 +56,11 @@ def get_low_spots(map: List[List[int]]) -> List[Tuple[int, int]]:
     map_size = get_map_size(map)
     for y in range(0, map_size['y']):
         for x in range(0, map_size['x']):
-            neighbours = get_neighbours((x,y), map)
+            nb_positions = get_neighbour_pos((x,y), map)
+            nb_heights = get_neighbours_height(nb_positions, map)
             pos_h = get_pos_height((x,y), map)
 
-            if pos_h < min(neighbours):
+            if pos_h < min(nb_heights):
                 low_spots.append((x,y))
     
     return low_spots
