@@ -46,7 +46,12 @@ def set_pos_data(pos, data, grid):
     return grid
 
 def get_grid_size(grid):
-    return {'x': len(grid[0]) - 1, 'y': len(grid) - 1}
+    return {'x': len(grid[0]), 'y': len(grid)}
+
+def pos_increase(pos, num, grid):
+    x,y = pos
+    grid[y][x] += num
+    return grid
 
 def grid_increase(grid, num):
     grid_size = get_grid_size(grid)
@@ -59,19 +64,63 @@ def grid_increase(grid, num):
     
     return grid
 
+def flash_octopi(grid):
+    grid_size = get_grid_size(grid)
+    x_lim = grid_size['x']
+    y_lim = grid_size['y']
+    counter = 0
+    triggered = []
+    stop = False
+
+    while stop == False:
+        trig = False
+        for x in range(x_lim):
+            for y in range(y_lim):
+                d = get_pos_data((x,y), grid)
+                if d >= 10:
+                    counter += 1
+                    trig = True
+                    grid = set_pos_data((x,y), 0, grid)
+                    triggered.append((x,y))
+                    adj = get_adj_pos((x,y), grid)
+                    for p in adj:
+                        if p and p not in triggered:
+                            xa, ya = p
+                            grid = pos_increase((xa,ya), 1, grid)
+        
+        if trig == False:
+            stop = True
+    
+    print(f'Triggered: {triggered}')
+
+    return grid            
+
 # --- Init ---
 grid = process_input(raw_input)
 print(input)
 # --- Part One ---
+print(f'Before any steps:')
+for r in grid:
+    for c in r:
+        print(c, end='')
+    print('')
+print('\n')
+
 for i in range(2):
     # Increase all positions with one
     grid = grid_increase(grid, 1)
+    grid = flash_octopi(grid)
 
-
-for r in grid:
-    for c in r:
-        print(c, end='\t')
+    print(f'After step {i + 1}:')
+    for r in grid:
+        for c in r:
+            print(c, end='')
     
-    print('')
+        print('')
+    print('\n')
+
+adj = get_adj_pos((0,0), grid)
+print(adj)
+
 
 # --- Part Two ---
