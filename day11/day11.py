@@ -1,6 +1,6 @@
 from pathlib import Path
 
-input = Path(__file__).with_name('day11_test.txt')
+input = Path(__file__).with_name('day11.txt')
 raw_input = input.open('r').read()
 
 def process_input(input):
@@ -102,33 +102,26 @@ flashed_octopi = 0
 step_all_flashed = None
 print(input)
 # --- Part One ---
-print(f'Before any steps:')
-for r in grid:
-    for c in r:
-        print(c, end='')
-    print('')
-print('\n')
-
-
 for i in range(100):
     # Increase all positions with one
     grid = grid_increase(grid, 1)
     grid, flashed = flash_octopi(grid)
     flashed_octopi += flashed
 
-print(f'Total flashed after 100 steps: {flashed_octopi}')
+print(f'Part One: {flashed_octopi}')
 
 
 # --- Part Two ---
+grid = process_input(raw_input)
 step = 1
+
 while step_all_flashed == None:
     # Increase all positions with one
     grid = grid_increase(grid, 1)
     grid, flashed = flash_octopi(grid)
-    print(f'Flashed octopi at step {step}: {flashed}')
+    # print(f'Flashed octopi at step {step}: {flashed}')
+    if flashed == 100:
+        step_all_flashed = step
     step += 1
 
-    if flashed == 110 or step == 200:
-        step_all_flashed = step
-
-print(f'Step all flashed: {step_all_flashed}')
+print(f'Part Two: {step_all_flashed}')
