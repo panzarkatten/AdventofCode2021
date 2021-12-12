@@ -71,7 +71,6 @@ def flash_octopi(grid):
     counter = 0
     triggered = []
     stop = False
-    all_flashed = False
 
     while stop == False:
         trig = False
@@ -116,10 +115,8 @@ grid = process_input(raw_input)
 step = 1
 
 while step_all_flashed == None:
-    # Increase all positions with one
     grid = grid_increase(grid, 1)
     grid, flashed = flash_octopi(grid)
-    # print(f'Flashed octopi at step {step}: {flashed}')
     if flashed == 100:
         step_all_flashed = step
     step += 1
