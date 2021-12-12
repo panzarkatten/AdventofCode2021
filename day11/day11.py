@@ -1,6 +1,6 @@
 from pathlib import Path
 
-input = Path(__file__).with_name('day11_test.txt')
+input = Path(__file__).with_name('day11.txt')
 raw_input = input.open('r').read()
 
 def process_input(input):
@@ -21,7 +21,7 @@ def get_adj_pos(pos, grid):
         (x     , y - 1), # N
         (x + 1 , y - 1), # NE
         (x + 1 , y    ), # E
-        (x - 1 , y + 1), # SE
+        (x + 1 , y + 1), # SE
         (x     , y + 1), # S
         (x - 1 , y + 1), # SW
         (x - 1 , y    ), # W
@@ -93,7 +93,7 @@ def flash_octopi(grid):
     
     print(f'Triggered: {triggered}')
 
-    return grid            
+    return grid, counter            
 
 # --- Init ---
 grid = process_input(raw_input)
@@ -106,10 +106,12 @@ for r in grid:
     print('')
 print('\n')
 
-for i in range(2):
+flashed_octopi = 0
+for i in range(100):
     # Increase all positions with one
     grid = grid_increase(grid, 1)
-    grid = flash_octopi(grid)
+    grid, flashed = flash_octopi(grid)
+    flashed_octopi += flashed
 
     print(f'After step {i + 1}:')
     for r in grid:
@@ -119,8 +121,7 @@ for i in range(2):
         print('')
     print('\n')
 
-adj = get_adj_pos((0,0), grid)
-print(adj)
+print(f'Total flashed: {flashed_octopi}')
 
 
 # --- Part Two ---
