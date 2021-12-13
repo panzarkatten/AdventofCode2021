@@ -8,12 +8,7 @@ def process_input(input):
     data = input.split('\n\n')
 
     in1 = data[0].split('\n')
-    dots = []
-    for dot in in1:
-        x,y = dot.split(',')
-        x = int(x)
-        y = int(y)
-        dots.append(tuple((x,y)))
+    dots = [tuple(map(int, dot.split(','))) for dot in in1]
 
     in2 = data[1].split('\n')
     folds = []
